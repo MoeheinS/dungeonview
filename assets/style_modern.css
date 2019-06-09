@@ -11,14 +11,21 @@
 	/*outline: 1px solid blue;*/
 }
 
+@font-face {
+	font-family: Alber;
+	src: url('AlberNew-Regular.ttf');
+}
+
 html, body {
 	padding: 0;
 	margin: 0;
 	width: 100%;
 	height: 100%;
 	background-color: #282923;
-	color: #f4f4ee;
+	color: #eeeeee;
 	cursor: default!important;
+
+	font-family: Alber;
 }
 
 button {

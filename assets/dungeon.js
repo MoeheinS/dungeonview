@@ -1,12 +1,29 @@
-function dungeoneer(){
-	document.querySelectorAll('.wall--l')[0].dataset.type = Math.floor(Math.random()*3);
-	document.querySelectorAll('.wall--l')[1].dataset.type = Math.floor(Math.random()*3);
-	document.querySelectorAll('.wall--l')[2].dataset.type = Math.floor(Math.random()*3);
-	document.querySelectorAll('.wall--l')[3].dataset.type = Math.floor(Math.random()*3);
-	document.querySelectorAll('.wall--l')[4].dataset.type = Math.floor(Math.random()*3);
-	document.querySelectorAll('.wall--l')[5].dataset.type = Math.floor(Math.random()*3);
+function dungeoneer(randomness){
+	//50-50 chance to go REALLY random in the gen, or something a bit more controlled
+	document.querySelectorAll('.wall--l')[0].dataset.type = Math.floor(Math.random()*2);
+	document.querySelectorAll('.wall--l')[1].dataset.type = Math.floor(Math.random()*2);
+	document.querySelectorAll('.wall--l')[2].dataset.type = Math.floor(Math.random()*2);
+	document.querySelectorAll('.wall--l')[3].dataset.type = Math.floor(Math.random()*2);
+	document.querySelectorAll('.wall--l')[4].dataset.type = Math.floor(Math.random()*2);
+	document.querySelectorAll('.wall--l')[5].dataset.type = Math.floor(Math.random()*2);
 
-	document.querySelector('.content').dataset.type = Math.floor(Math.random()*4);
+	if(randomness >= 2){
+		document.querySelectorAll('.wall--l')[0].dataset.door = Math.floor(Math.random()*4);
+		document.querySelectorAll('.wall--l')[1].dataset.door = Math.floor(Math.random()*4);
+		document.querySelectorAll('.wall--l')[2].dataset.door = Math.floor(Math.random()*4);
+		document.querySelectorAll('.wall--l')[3].dataset.door = Math.floor(Math.random()*4);
+		document.querySelectorAll('.wall--l')[4].dataset.door = Math.floor(Math.random()*4);
+		document.querySelectorAll('.wall--l')[5].dataset.door = Math.floor(Math.random()*4);
+	}else{
+		document.querySelectorAll('.wall--l')[0].dataset.door = 0;
+		document.querySelectorAll('.wall--l')[1].dataset.door = 0;
+		document.querySelectorAll('.wall--l')[2].dataset.door = 0;
+		document.querySelectorAll('.wall--l')[3].dataset.door = 0;
+		document.querySelectorAll('.wall--l')[4].dataset.door = 0;
+		document.querySelectorAll('.wall--l')[5].dataset.door = 0;
+	}
+
+	document.querySelector('.content').dataset.type = Math.floor(Math.random()*5);
 	document.querySelector('.content').dataset.dist = Math.floor(Math.random()*3)+1;
 }
 //window.setInterval(function(){dungeoneer()}, 3000);
