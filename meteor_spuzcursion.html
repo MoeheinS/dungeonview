@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="./meteor_spuzcursion_files/merged-stylesheets.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+	<title>meteor_spuzcursion</title>
+</head>
+
+<body onclick="
+    document.querySelectorAll('.wall').forEach(function(i, index){
+        i.dataset.type = Math.floor(Math.random()*3);
+        // 6 because 4 gives all the possible contents; this way there's more empty walls rolled
+        i.dataset.content = Math.floor(Math.random()*6);
+    });
+    document.querySelector('.wall--center').dataset.dist = Math.floor(Math.random()*3)+1;
+    document.querySelector('.wall--center').dataset.type = Math.floor(Math.random()*2);
+    document.querySelector('.wall--center').dataset.content = Math.floor(Math.random()*6);
+">
+    <section class="viewController" data-theme="1">
+                
+        <section class="dungeonController">
+            <section class="lane" data-xflip="0">
+                <article class="wall" data-dist="1" data-type="0" data-content="2">
+                    <article></article>
+                </article>
+                <article class="wall" data-dist="2" data-type="1" data-content="0">
+                    <article></article>
+                </article>
+                <article class="wall" data-dist="3" data-type="2" data-content="0">
+                    <article></article>
+                </article>
+            </section>    
+        
+            <section class="lane" data-xflip="1">
+                <article class="wall" data-dist="1" data-type="2" data-content="5">
+                    <article></article>
+                </article>
+                <article class="wall" data-dist="2" data-type="1" data-content="3">
+                    <article></article>
+                </article>
+                <article class="wall" data-dist="3" data-type="0" data-content="1">
+                    <article></article>
+                </article>
+            </section> 
+
+            <section class="center">
+                <article class="wall--center" data-dist="2" data-type="1" data-content="2">
+                    <article></article>
+                </article>
+            </section>
+            
+        </section>
+        
+    </section>
+	<!-- <div id="crtEmulation" style="position: fixed; left: 0px; top: 0px; right: 0px; bottom: 0px; pointer-events: none; z-index: 16777215; background-repeat: repeat; background-image: url(&quot;data:image/png;base64,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&quot;); background-position: 20px 10px; opacity: 0.55;"></div> -->
+</body>
+</html>

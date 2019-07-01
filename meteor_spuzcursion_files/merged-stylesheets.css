@@ -1,0 +1,414 @@
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	--light1: #dee1e6;
+	--light2: #f1f3f4;
+	--light3: #ffffff;
+	--light4: #f5f5f5;
+	--dark1: #202124;
+	--dark2: #282c2f;
+	--dark3: #323639;
+	--dark4: #464a4d;
+	--col__red: #f63732;
+	--col__blue: #4285f4;
+	--col__green: #319d59;
+	--col__yellow: #ffcd41;
+	--col__ochre: #f0a200;
+	--col__white: #eeeeee;
+	--col__grey: #d6d6d6;
+	--col__black: #202124;
+}
+
+html, body {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	/*
+	height: max-content;
+	min-height: -webkit-fill-available;
+	*/
+
+	background-color: var(--dark3);
+
+	cursor: default!important;
+
+	font-family: alber;
+	font-size: 12px;
+	letter-spacing: 2px;
+	line-height: 1.3;
+
+	overflow-x: hidden;
+}
+html * {
+	letter-spacing: inherit;
+	line-height: inherit;
+}
+
+span {
+	display: inline-block;
+}
+
+button {
+  -webkit-appearance: none;
+  border: none;
+  font-size: unset;
+  font-family: inherit;
+  outline: none;
+  color: inherit;
+  background-color: inherit;
+}
+
+.dungeonController * {
+	transition: all 0.6s ease-in-out, visibility 0s linear; 
+}
+
+.dungeonController {
+	height: 100%;
+	width: 100%;
+	
+	background-color: var(--colGS2);
+
+	z-index: 4;
+	position: relative;
+    perspective: 400px;
+    overflow: hidden;
+
+    background: linear-gradient(to top, 
+        var(--colGS1) 0%, 
+        var(--colGS1) 50%,
+        var(--col__blue) 50%,
+        var(--colGS1) 100%);
+    transform-style: preserve-3d;
+}
+
+/* .dungeonController * {
+    outline: 1px solid var(--col__green);
+} */
+
+/* //   Lanes */
+.lane {
+    width: 1500px;
+    height: 100%;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: unset;
+    transform-style: preserve-3d;
+    transform-origin: left;
+    transform: rotateY(90deg);
+
+    display: grid;
+    grid-template-columns: 2fr 3fr 4fr;
+    grid-template-areas: 
+        "wall1 wall2 wall3";
+}
+.lane[data-xflip='1'] {
+    transform: scaleX(-1);
+
+    left: unset;
+    right: 0;
+    
+    transform-origin: right;
+    transform: rotateY(-90deg);
+
+    grid-template-columns: 4fr 3fr 2fr;
+    grid-template-areas: 
+        "wall3 wall2 wall1";
+}
+
+/* //   Walls */
+.wall {
+    height: 100%;
+    position: relative;
+}
+.wall[data-dist='1'] {
+    grid-area: wall1;
+}
+.wall[data-dist='2'] {
+    grid-area: wall2;
+}
+.wall[data-dist='3'] {
+    grid-area: wall3;
+}
+
+/* 
+    //  Walls - Type
+    //  0: Parallel
+    //  1: Perpendicular
+    //  2: Gone
+*/
+.lane[data-xflip='0'] .wall[data-type='1'] {
+    transform: rotateY(-90deg);
+    transform-origin: right;
+}
+.lane[data-xflip='1'] .wall[data-type='1'] {
+    transform: rotateY(90deg);
+    transform-origin: left;
+}
+/* parallel walls are wider to obscure things I'd rather not render (lanes further out) */
+.wall[data-type='1'] article {
+    width: 500vw;
+    background-color: var(--colGS3);
+}
+
+.wall[data-type='2'] article {
+    visibility: hidden;
+}
+
+/* 
+    //  Walls - Content 
+    //  0: Nothing
+    //  1: Button
+    //  2: Door
+    //  3: Stairs
+*/
+.wall article {
+    position: absolute;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--colGS4);
+}
+.lane[data-xflip='0'] .wall article {
+    left: unset;
+    right: 0;
+}
+.lane[data-xflip='1'] .wall article {
+    left: 0;
+    right: unset;
+}
+/* Button */
+.wall[data-content='1'] article:after {
+    content: '';
+	position: absolute;
+	top: 35%;
+	left: 45%;
+
+	width: 10vh;
+	height: 5vh;
+    border-radius: 12px;
+	background-color: var(--colGS3);
+}
+.wall[data-content='1'][data-type='1'] article:after {
+    background-color: var(--colGS4);
+    
+    left: unset;
+    right: 20vw;
+}
+.lane[data-xflip='1'] .wall[data-content='1'][data-type='1'] article:after {
+    left: 20vw;
+}
+
+/* Door */
+.wall[data-content='2'] article:after {
+    content: '';
+	position: absolute;
+	bottom: 1rem;
+	left: 20%;
+
+	width: 60%;
+	height: 80%;
+
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+    background-color: var(--colGS3);
+}
+
+.wall[data-content='2'][data-type='1'] article:after {
+    background-color: var(--colGS4);
+    
+    left: unset;
+    right: 20vw;
+
+    width: 30vw;
+}
+.lane[data-xflip='1'] .wall[data-content='2'][data-type='1'] article:after {
+    left: 20vw;
+}
+
+/* Stairway */
+.wall[data-content='3'] article:after {
+    content: '';
+	position: absolute;
+	bottom: 1rem;
+	left: 20%;
+
+	width: 60%;
+	height: 80%;
+
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+    background-color: var(--colGS1);
+
+    border-bottom: 10rem double var(--colGS2);
+    border-right: 6rem solid var(--colGS1);
+}
+.lane[data-xflip='1'] .wall[data-content='3'] article:after {
+    border-right: unset;
+    border-left: 6rem solid var(--colGS1);
+}
+
+.wall[data-content='3'][data-type='1'] article:after {
+    left: unset;
+    right: 20vw;
+
+    width: 30vw;
+}
+.lane[data-xflip='1'] .wall[data-content='3'][data-type='1'] article:after {
+    left: 20vw;
+}
+
+/* //  Center */
+.center {
+    width: 100%;
+    height: 100%;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    perspective: 400px;
+    transform-style: preserve-3d;
+}
+.center .wall--center {
+    background-color: var(--colGS3);
+    height: 100%;
+    width: 100%;
+}
+.center .wall--center[data-dist='1'] {
+    transform: translateZ(-166.2px);
+}
+.center .wall--center[data-dist='2'] {
+    transform: translateZ(-415px);
+}
+.center .wall--center[data-dist='3'] {
+    transform: translateZ(-749px);
+}
+.center .wall--center[data-type='1'] {
+    visibility: hidden;
+}
+.center .wall--center[data-content='1'] article:after {
+    content: '';
+	position: absolute;
+	top: 35%;
+	left: 45%;
+
+	width: 10vh;
+	height: 5vh;
+    border-radius: 12px;
+	background-color: var(--colGS4);
+}
+.center .wall--center[data-content='2'] article:after {
+    content: '';
+	position: absolute;
+	bottom: 1rem;
+	left: 25%;
+
+	width: 50%;
+	height: 80%;
+
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+    background-color: var(--colGS4);
+}
+.center .wall--center[data-content='3'] article:after {
+    content: '';
+	position: absolute;
+	bottom: 1rem;
+	left: 25%;
+
+	width: 50%;
+	height: 80%;
+
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+    background-color: var(--colGS1);
+
+    border-bottom: 10rem double var(--colGS2);
+    border-right: 6rem solid var(--colGS1);
+}/*
+	color palette
+	theme 0 = light dungeon dark ui
+	theme 1 = dark dungeon light ui
+	theme 2 = double dark
+	theme 2 = double light
+	1: darkest
+	4: lightest
+*/
+.viewController[data-theme='0'] {
+	--colUI1: var(--dark1);
+	--colUI2: var(--dark2);
+	--colUI3: var(--dark3);
+	--colUI4: var(--dark4);
+	--colGS1: var(--light1);
+	--colGS2: var(--light2);
+	--colGS3: var(--light3);
+	--colGS4: var(--light4);
+
+	color: var(--col__white);
+}
+.viewController[data-theme='1'] {
+	--colUI1: var(--light1);
+	--colUI2: var(--light2);
+	--colUI3: var(--light3);
+	--colUI4: var(--light4);
+	--colGS1: var(--dark1);
+	--colGS2: var(--dark2);
+	--colGS3: var(--dark3);
+	--colGS4: var(--dark4);
+
+	color: var(--dark1);
+}
+.viewController[data-theme='2'] {
+	--colUI1: var(--dark1);
+	--colUI2: var(--dark2);
+	--colUI3: var(--dark3);
+	--colUI4: var(--dark4);
+	--colGS1: var(--dark1);
+	--colGS2: var(--dark2);
+	--colGS3: var(--dark3);
+	--colGS4: var(--dark4);
+
+	color: var(--col__white);
+}
+.viewController[data-theme='3'] {
+	--colUI1: var(--light1);
+	--colUI2: var(--light2);
+	--colUI3: var(--light3);
+	--colUI4: var(--light4);
+	--colGS1: var(--light1);
+	--colGS2: var(--light2);
+	--colGS3: var(--light3);
+	--colGS4: var(--light4);
+
+	color: var(--dark1);
+}
+.viewController {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	
+	background-color: var(--colUI3);
+
+	overflow: hidden;
+
+	/* padding: 20px 20px 120px 20px; */
+}
+.viewController[data-theme='0'] button,
+.viewController[data-theme='2'] button {
+	border: 2px solid var(--col__white);
+}
+.viewController[data-theme='1'] button,
+.viewController[data-theme='3'] button {
+	border: 2px solid var(--dark1);
+}
